@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\unity\\Phoenix\\Phoenix\\Phoenix\\Phoenix.csproj",
-      "projectName": "Phoenix",
-      "projectPath": "C:\\unity\\Phoenix\\Phoenix\\Phoenix\\Phoenix.csproj",
+      "projectUniqueName": "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj",
+      "projectName": "TeamPhoenix",
+      "projectPath": "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj",
       "packagesPath": "C:\\Users\\scv94\\.nuget\\packages\\",
-      "outputPath": "C:\\unity\\Phoenix\\Phoenix\\Phoenix\\obj\\",
+      "outputPath": "C:\\unity\\Phoenix\\P\\P\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\scv94\\AppData\\Roaming\\NuGet\\NuGet.Config",

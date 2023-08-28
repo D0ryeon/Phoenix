@@ -1,115 +1,39 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Security;
-using System.Reflection.Metadata.Ecma335;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Phoenix
+namespace TeamPhoenix
 {
-
+    
 
     internal class Program
     {
+
         static void Main(string[] args)
         {
 
-            Player player = new Player("햄이네", "전사");
-            Inventory inv = new Inventory();
-            List<Item> inventory = inv.items;
-            View.StartView();
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("햄이네 마을에 오신 여러분 환영합니다.");
-                Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.");
-                Console.WriteLine();
-                Console.WriteLine("1. 상태 보기");
-                Console.WriteLine("2. 인벤토리");
-                Console.WriteLine();
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">>");
-                string inputNum = Console.ReadLine();
+            Game game = new Game();
 
-                switch (inputNum)
-                {
-                    case "1":
-                    status:
-                        Console.Clear();
+            var configuration = new GAME_START_CONFIGURATION();
+            configuration.startScene = new IntroScene();
+            game.gameStartConfiguration = configuration;
 
-                        Status.StatusView(inventory,player);
+            Global.playerStatus.attack = 10;
+            Global.playerStatus.armor = 1;
+            Global.playerStatus.health = 35;
 
-                        string inputStatus = Console.ReadLine();
+            Global.itemList.Add(new EquipItem(0, "무쇠갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", new STATUS(0, 5, 0)));
+            Global.itemList.Add(new EquipItem(1, "낡은 검", "쉽게 볼 수 있는 낡은 검 입니다.", new STATUS(2, 0, 0)));
 
-                        switch (inputStatus)
-                        {
-                            case "0":
-                                break;
-                            default:
-                                Console.WriteLine("올바른 번호를 적어주세요.");
-                                goto status;
-                        }
+            Global.playerInventory.itemDictionary.Add(0, new InventoryItem(new ITEM(0), 1));
+            Global.playerInventory.itemDictionary.Add(1, new InventoryItem(new ITEM(1), 1));
 
-                        break;
-                    case "2":
-                    invenMenu:
-                        Console.Clear();
+            game.Run();
 
-                        InvenView.InventoryView(inventory);
-
-                        string inputInventory = Console.ReadLine();
-                        switch (inputInventory)
-                        {
-                            case "0":
-                                break;
-                            case "1":
-                            iquipMenu:
-                                Console.Clear();
-                                InvenView.InventoryEquipView(inventory);
-
-                                string inputIquip = Console.ReadLine();
-                                int num = 0;
-                                bool isNum = int.TryParse(inputIquip, out num);
-                                if (num < inventory.Count)
-                                {
-                                    if (inventory[num].equip == false)
-                                    {
-                                        inventory[num].equip = true;
-                                    }
-                                    else
-                                    {
-                                        inventory[num].equip = false;
-                                    }
-                                }
-                                if (inputIquip == "0")
-                                {
-                                    goto invenMenu;
-                                }
-                                else if (num >= inventory.Count || isNum == false)
-                                {
-                                    Console.WriteLine("올바른 번호를 적어주세요.");
-                                    Console.ReadLine();
-                                    goto iquipMenu;
-                                }
-                                goto iquipMenu;
-                            default:
-                                Console.WriteLine("올바른 번호를 적어주세요.");
-                                Console.ReadLine();
-                                goto invenMenu;
-                        }
-                        break;
-                    default:
-                        Console.WriteLine("올바른 번호를 적어주세요.");
-                        Console.ReadLine();
-                        continue;
-                }
-            }
-
-     
-            
-
-
-            
-
-
-            
         }
+
     }
+
 }

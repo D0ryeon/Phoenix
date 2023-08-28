@@ -4,25 +4,55 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Phoenix
+namespace TeamPhoenix
 {
+    public enum EItemClassify
+    {
+        ETC,
+        Equip,
+        Consume
+    }
+
     public class Item
     {
-        public bool equip { get; set; }
-        public string name { get; }
-        public string content { get; }
-        public int damage { get; }
-        public int defense { get; }
-        public int gold { get; }
 
-        public Item(string name, string content, int damage, int defense, int gold)
+        public int identifier;
+        public EItemClassify classify;
+        public string name;
+        public string manual;
+
+        public Item(int identifier, EItemClassify classify, string name, string manual)
         {
+            this.identifier = identifier;
+            this.classify = classify;
             this.name = name;
-            this.content = content;
-            this.damage = damage;
-            this.defense = defense;
-            this.gold = gold;
-            this.equip = false;
+            this.manual = manual;
         }
+
     }
+
+    public class EquipItem : Item
+    {
+
+        public STATUS status;
+
+        public EquipItem(int identifier, string name, string manual, STATUS status) : base(identifier, EItemClassify.Equip, name, manual)
+        {
+            this.status = status;
+        }
+
+    }
+
+    public struct ITEM
+    {
+
+        public int identifier;
+
+        public ITEM(int _identifier)
+        {
+            identifier = _identifier;
+        }
+
+    }
+
 }
