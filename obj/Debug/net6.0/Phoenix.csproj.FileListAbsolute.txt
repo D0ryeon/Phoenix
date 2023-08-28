@@ -1,0 +1,15 @@
+C:\unity\Phoenix\Phoenix\Phoenix\bin\Debug\net6.0\Phoenix.exe
+C:\unity\Phoenix\Phoenix\Phoenix\bin\Debug\net6.0\Phoenix.deps.json
+C:\unity\Phoenix\Phoenix\Phoenix\bin\Debug\net6.0\Phoenix.runtimeconfig.json
+C:\unity\Phoenix\Phoenix\Phoenix\bin\Debug\net6.0\Phoenix.dll
+C:\unity\Phoenix\Phoenix\Phoenix\bin\Debug\net6.0\Phoenix.pdb
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.csproj.AssemblyReference.cache
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.GeneratedMSBuildEditorConfig.editorconfig
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.AssemblyInfoInputs.cache
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.AssemblyInfo.cs
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.csproj.CoreCompileInputs.cache
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.dll
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\refint\Phoenix.dll
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.pdb
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\Phoenix.genruntimeconfig.cache
+C:\unity\Phoenix\Phoenix\Phoenix\obj\Debug\net6.0\ref\Phoenix.dll
