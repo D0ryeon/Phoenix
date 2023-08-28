@@ -1,0 +1,15 @@
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.csproj.AssemblyReference.cache
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.GeneratedMSBuildEditorConfig.editorconfig
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.AssemblyInfoInputs.cache
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.AssemblyInfo.cs
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.csproj.CoreCompileInputs.cache
+D:\VS\StudyC#2\C_study\Pheonix\bin\Debug\net6.0\Pheonix.exe
+D:\VS\StudyC#2\C_study\Pheonix\bin\Debug\net6.0\Pheonix.deps.json
+D:\VS\StudyC#2\C_study\Pheonix\bin\Debug\net6.0\Pheonix.runtimeconfig.json
+D:\VS\StudyC#2\C_study\Pheonix\bin\Debug\net6.0\Pheonix.dll
+D:\VS\StudyC#2\C_study\Pheonix\bin\Debug\net6.0\Pheonix.pdb
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.dll
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\refint\Pheonix.dll
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.pdb
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\Pheonix.genruntimeconfig.cache
+D:\VS\StudyC#2\C_study\Pheonix\obj\Debug\net6.0\ref\Pheonix.dll
