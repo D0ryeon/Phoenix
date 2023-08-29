@@ -13,12 +13,12 @@ namespace TeamPhoenix
             Monster Minion = new Monster("Lv2 미니언", 15, 5);
             Monster Voidworm = new Monster("Lv3 공허충", 10, 9);
             Monster Cannonminion = new Monster("Lv5 대포미니언", 25, 8);
-
-            Console.WriteLine("Battle !");
+            // 플레이어의 턴으로 시작!
             List<Monster> monsters = Monster.MonsterSpawner(Minion, Voidworm, Cannonminion);
             while (true)
             {
-                for(int i = 0; i < monsters.Count; i++)
+                Console.WriteLine("Battle !");
+                for (int i = 0; i < monsters.Count; i++)
                 {
                     Console.WriteLine((i+1)+"." + monsters[i].Name +"  "+ monsters[i].Atk +"  "+ monsters[i].HP);
 
@@ -39,11 +39,6 @@ namespace TeamPhoenix
                         Console.WriteLine(monsters[j].Name + "을(를) 맞췄습니다.");
                         int chance = Chance();
                         GetHit(chance, monsters[j].HP,Global.playerStatus.attack);
-                        bool MonsterDead = isDead(monsters[j].HP);
-                        if (MonsterDead)
-                        {
-
-                        }
                     }
                     else
                     {
@@ -51,6 +46,30 @@ namespace TeamPhoenix
                     }
                 }
                 select = default;
+                // 적의 턴 시작!
+                Console.WriteLine("Enemy Phase!");
+                for(int k = 0; k < monsters.Count; k++)
+                {
+                    int chance = Chance();
+                    GetHit(chance, Global.playerStatus.health, monsters[k].Atk);
+                    Console.WriteLine(Global.playerName);
+                    Console.WriteLine(Global.playerStatus.health);
+                }
+                // 게임오버 유무 판단!
+                int totalHP = 0;
+                for(int l = 0; l < monsters.Count; l++)
+                {
+                    totalHP += monsters[l].HP;
+                }
+                if(totalHP == 0)
+                {
+                    Console.WriteLine("Victory");
+                    break;
+                }else if(Global.playerStatus.health == 0)
+                {
+                    Console.WriteLine("You Died");
+                    break;
+                }
                 Console.Clear();
 
             }
@@ -97,19 +116,6 @@ namespace TeamPhoenix
                 isdead = false;
             }
             return isdead;
-        }
-
-        public bool GameOver(int monsterHP, int playerHP)
-        {
-            bool gameover = true;
-            if(playerHP <= 0)
-            {
-                gameover = false;
-            }else if (monsterHP <= 0)
-            {
-                gameover = false;
-            }
-            return gameover;
         }
     }
 
