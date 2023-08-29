@@ -58,12 +58,14 @@ namespace TeamPhoenix
 
             Console.WriteLine("1. 상태 보기");
             Console.WriteLine("2. 인벤토리");
+            Console.WriteLine("5. 세이브/로드");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
             Utility.MethodSelector selector = new Utility.MethodSelector();
             selector.dictionary.Add(1, (_) => RunScene(new StatusScene()));
             selector.dictionary.Add(2, (_) => RunScene(new InventoryScene()));
+            selector.dictionary.Add(5, (_) => RunScene(new SaveScene()));
             selector.Select(">>");
 
             return this;

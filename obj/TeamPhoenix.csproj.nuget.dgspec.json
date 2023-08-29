@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj": {}
+    "C:\\unity\\Phoenix\\Phoenix\\TeamPhoenix.csproj": {}
   },
   "projects": {
-    "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj": {
+    "C:\\unity\\Phoenix\\Phoenix\\TeamPhoenix.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj",
+        "projectUniqueName": "C:\\unity\\Phoenix\\Phoenix\\TeamPhoenix.csproj",
         "projectName": "TeamPhoenix",
-        "projectPath": "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj",
+        "projectPath": "C:\\unity\\Phoenix\\Phoenix\\TeamPhoenix.csproj",
         "packagesPath": "C:\\Users\\scv94\\.nuget\\packages\\",
-        "outputPath": "C:\\unity\\Phoenix\\P\\P\\obj\\",
+        "outputPath": "C:\\unity\\Phoenix\\Phoenix\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\scv94\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
