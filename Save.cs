@@ -12,7 +12,7 @@ namespace TeamPhoenix
     {
         public void CreateSave()
         {
-            string path = @"C:\temp\test.json";
+            string path = @"C:\temp\Save.json";
 
             if (!File.Exists(path))
             {
@@ -36,7 +36,7 @@ namespace TeamPhoenix
 
         public void LoadSave()
         {
-            string jsonFilePath = @"C:\temp\test.json";
+            string jsonFilePath = @"C:\temp\Save.json";
             string str = string.Empty;
             string users = string.Empty;
 
