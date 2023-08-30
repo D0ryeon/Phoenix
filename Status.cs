@@ -9,7 +9,7 @@ namespace TeamPhoenix
 
     public enum EJob
     {
-        Warrior
+        None,Warrior,Archor,Mage
     }
 
     public struct STATUS
