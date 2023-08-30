@@ -21,7 +21,7 @@ namespace TeamPhoenix
                 Console.WriteLine("Battle !");
                 for (int i = 0; i < monsters.Count; i++)
                 {
-                    if (monsters[i].HP >= 0)
+                    if (monsters[i].HP > 0)
                     {
                         Console.WriteLine((i + 1) + "." + monsters[i].Name + "  " + monsters[i].Atk + "  " + monsters[i].HP);
 
@@ -49,7 +49,7 @@ namespace TeamPhoenix
                     int select2 = int.Parse(Console.ReadLine());
                     for (int j = 0; j < monsters.Count; j++)
                     {
-                        if (j == (select - 1))
+                        if (j == (select2-1))
                         {
                             Console.WriteLine(Global.playerName + "의 공격!");
                             Console.WriteLine(monsters[j].Name + "을(를) 공격합니다.");
@@ -70,6 +70,11 @@ namespace TeamPhoenix
                     gameSystem.Skill(monsters);
                     Thread.Sleep(1000);
                 }
+                else if(select <= 0 || select > 2)
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                    continue;
+                }
                 Thread.Sleep(1000);
                 Console.Clear();
                 select = default;
@@ -88,6 +93,7 @@ namespace TeamPhoenix
                     }
                     Console.WriteLine($"{monsters[k].Name}이 공격합니다!");
                     Global.playerStatus.health = gameSystem.playerHit(chance, Global.playerStatus.health, monsters[k].Atk);
+                    Console.WriteLine(" ");
                     Thread.Sleep(1000);
 
                 }
