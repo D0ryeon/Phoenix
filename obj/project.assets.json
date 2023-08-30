@@ -8,19 +8,24 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\scv94\\.nuget\\packages\\": {}
+    "C:\\Users\\JK\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj",
+      "projectUniqueName": "D:\\ProjectShare\\Phoenix\\TeamPhoenix.csproj",
       "projectName": "TeamPhoenix",
-      "projectPath": "C:\\unity\\Phoenix\\P\\P\\TeamPhoenix.csproj",
-      "packagesPath": "C:\\Users\\scv94\\.nuget\\packages\\",
-      "outputPath": "C:\\unity\\Phoenix\\P\\P\\obj\\",
+      "projectPath": "D:\\ProjectShare\\Phoenix\\TeamPhoenix.csproj",
+      "packagesPath": "C:\\Users\\JK\\.nuget\\packages\\",
+      "outputPath": "D:\\ProjectShare\\Phoenix\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\scv94\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\JK\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -61,7 +66,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }
