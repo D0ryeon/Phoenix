@@ -10,18 +10,26 @@ namespace TeamPhoenix
     {
         public override void Start()
         {
+            Console.Clear();
+            Random rand = new Random();
             GameSystem gameSystem = new GameSystem();
-            Monster Minion = new Monster("Lv2 미니언", 15, 5);
-            Monster Voidworm = new Monster("Lv3 공허충", 10, 9);
-            Monster Cannonminion = new Monster("Lv5 대포미니언", 25, 8);
             // 플레이어의 턴으로 시작!
-            List<Monster> monsters = Monster.MonsterSpawner(Minion, Voidworm, Cannonminion);
+            List<Monster> monsters = Monster.MonsterSpawner();
+            Global.playerStatus.health = 100;
             while (true)
             {
                 Console.WriteLine("Battle !");
                 for (int i = 0; i < monsters.Count; i++)
                 {
-                    Console.WriteLine((i+1)+"." + monsters[i].Name +"  "+ monsters[i].Atk +"  "+ monsters[i].HP);
+                    if (monsters[i].HP >= 0)
+                    {
+                        Console.WriteLine((i + 1) + "." + monsters[i].Name + "  " + monsters[i].Atk + "  " + monsters[i].HP);
+
+                    }else if (monsters[i].HP <= 0)
+                    {
+                        Console.WriteLine((i + 1) + "." + monsters[i].Name + "  " + monsters[i].Atk + "  " + "Dead");
+
+                    }
 
                 }
                 Console.WriteLine(" ");
@@ -29,31 +37,56 @@ namespace TeamPhoenix
                 Console.WriteLine("이  름 : " + Global.playerName);
                 Console.WriteLine("공격력 : " + Global.playerStatus.attack);
                 Console.WriteLine("체  력 : " + Global.playerStatus.health);
+                Console.WriteLine("마  나 : " + Global.playerStatus.mana);
                 Console.WriteLine(" ");
-                //string message = "공격할 대상을 선택하시오";
-                //int select = Utility.SelectInt(0, monsters.Count, message);
-                Console.WriteLine("공격할 대상을 선택하시오 : ");
+                Console.WriteLine("행동을 선택하시오 ");
+                Console.WriteLine(" 1. 일반 공격");
+                Console.WriteLine(" 2. 스킬 사용");
                 int select = int.Parse(Console.ReadLine());
-                for(int j = 0; j < monsters.Count; j++)
+                if (select == 1)
                 {
-                    if (j == (select - 1))
+                    Console.WriteLine("공격할 대상을 선택하시오 : ");
+                    int select2 = int.Parse(Console.ReadLine());
+                    for (int j = 0; j < monsters.Count; j++)
                     {
-                        Console.WriteLine(Global.playerName + "의 공격!");
-                        Console.WriteLine(monsters[j].Name + "을(를) 공격합니다.");
-                        int chance = gameSystem.Chance();
-                        monsters[j].HP = gameSystem.monsterHit(chance, monsters[j], Global.playerStatus.attack);
-                        Thread.Sleep(1000);
+                        if (j == (select - 1))
+                        {
+                            Console.WriteLine(Global.playerName + "의 공격!");
+                            Console.WriteLine(monsters[j].Name + "을(를) 공격합니다.");
+                            int chance = gameSystem.Chance();
+                            monsters[j].HP = gameSystem.monsterHit(chance, monsters[j], Global.playerStatus.attack);
+                            Thread.Sleep(1000);
+                        }
                     }
+                }else if (select == 2)
+                {
+                    if(Global.playerStatus.mana < 10)
+                    {
+                        Console.WriteLine("마나가 부족해 스킬 사용에 실패했습니다. ");
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                        continue;
+                    }
+                    gameSystem.Skill(monsters);
+                    Thread.Sleep(1000);
                 }
+                Thread.Sleep(1000);
+                Console.Clear();
                 select = default;
                 // 적의 턴 시작!
                 Console.WriteLine("Enemy Phase!");
                 for(int k = 0; k < monsters.Count; k++)
                 {
-                    Console.WriteLine($"{monsters[k].Name}이 공격합니다!");
+                    Console.WriteLine($"{monsters[k].Name}의 턴!");
                     int chance = gameSystem.Chance();
                     bool isdead = gameSystem.isDead(monsters[k].HP);
-                    if (isdead) { continue; }
+                    if (isdead) 
+                    {
+                        Console.WriteLine("싸늘하다. 이미 시체인듯하다.");
+                        Thread.Sleep(1000);
+                        continue; 
+                    }
+                    Console.WriteLine($"{monsters[k].Name}이 공격합니다!");
                     Global.playerStatus.health = gameSystem.playerHit(chance, Global.playerStatus.health, monsters[k].Atk);
                     Thread.Sleep(1000);
 
@@ -62,10 +95,15 @@ namespace TeamPhoenix
                 int totalHP = 0;
                 for(int l = 0; l < monsters.Count; l++)
                 {
+                    if (monsters[l].HP < 0)
+                    {
+                        monsters[l].HP = 0;
+                    }
                     totalHP += monsters[l].HP;
                 }
                 if(totalHP <= 0)
                 {
+                    Console.Clear();
                     Console.WriteLine("Victory");
                     Console.WriteLine($"던전에서 몬스터 {monsters.Count}마리를 잡았습니다.");
                     Console.WriteLine(Global.playerName);
@@ -73,6 +111,7 @@ namespace TeamPhoenix
                     break;
                 }else if(Global.playerStatus.health <= 0)
                 {
+                    Console.Clear();
                     Console.WriteLine("You Died");
                     Console.WriteLine(Global.playerName);
                     Console.WriteLine(Global.playerStatus.health);
@@ -81,7 +120,6 @@ namespace TeamPhoenix
                 Console.Clear();
 
             }
-            // GetHit(10, Global.playerStatus.health, Global.playerStatus.attack);
         }
         public override SceneBase End()
         {
@@ -117,15 +155,16 @@ namespace TeamPhoenix
             int max = Atk + (int)AtkError;
             double CriticalHit = Atk * 0.6;
             int Attack = rand.Next(min, max);
+            int Critical = Attack + (int)CriticalHit;
             if(chance > 12 || chance < 8)
             {
-                Console.WriteLine("공격이 적중했습니다.");
+                Console.WriteLine($"공격이 적중했습니다. [데미지 : {Attack}]");
                 monster.HP -= Attack;
             }else if (chance == 8 || chance == 11 || chance == 12)
             {
-                Console.WriteLine("공격이 치명타로 적중했습니다.");
+                Console.WriteLine($"공격이 치명타로 적중했습니다.[데미지 : {Critical}]");
 
-                monster.HP = monster.HP - (Attack + (int)CriticalHit);
+                monster.HP = monster.HP - Critical;
             }
             else // 9, 10일 경우 빗나감!
             {
@@ -140,22 +179,64 @@ namespace TeamPhoenix
             int max = Atk + (int)AtkError;
             double CriticalHit = Atk * 0.6;
             int Attack = rand.Next(min, max);
+            int Critical = Attack + (int)CriticalHit;
             if (chance > 12 || chance < 8)
             {
-                Console.WriteLine("공격이 적중했습니다.");
+                Console.WriteLine($"공격이 적중했습니다. [데미지 : {Attack}]");
                 health -= Attack;
             }
             else if (chance == 8 || chance == 11 || chance == 12)
             {
-                Console.WriteLine("공격이 치명타로 적중했습니다.");
+                Console.WriteLine($"공격이 치명타로 적중했습니다.[데미지 : {Critical}]");
 
-                health = health - (Attack + (int)CriticalHit);
+                health = health - Critical;
             }
             else // 9, 10일 경우 빗나감!
             {
                 Console.WriteLine("빗나감!");
             }
             return health;
+        }
+
+        public void Skill(List<Monster> monsters)
+        {
+            Console.WriteLine(" ");
+            Console.WriteLine("1. 알파 스트라이크 - MP10");
+            Console.WriteLine("공격력 * 2 로 하나의 적을 공격합니다.");
+            Console.WriteLine("2. 더블 스트라이크 - MP15");
+            Console.WriteLine("공격력 * 1.5 로 두 명의 랜덤한 적을 공격합니다.");
+            Console.WriteLine(" ");
+            Console.WriteLine("사용할 스킬을 선택하시오 ");
+            int select = int.Parse(Console.ReadLine());
+            if (select == 1)
+            {
+                AlphaStrike(monsters);
+                Global.playerStatus.mana -= 10;
+            }else if(select == 2)
+            {
+                DoubleStrike(monsters);
+                Global.playerStatus.mana -= 15;
+            }
+        }
+
+        public void AlphaStrike(List<Monster> monsters)
+        {
+            Console.WriteLine("공격할 대상을 선택하시오");
+            int select = int.Parse(Console.ReadLine())-1;
+            int Atk = Global.playerStatus.attack * 2;
+            Console.WriteLine("알파 스트라이크!");
+            monsters[select].HP -= Atk;
+        }
+
+        public void DoubleStrike(List<Monster> monsters)
+        {
+            Console.WriteLine("랜덤한 대상을 공격합니다.");
+            int select1 = rand.Next(0, monsters.Count);
+            int select2 = rand.Next(0, monsters.Count);
+            double Atk = Global.playerStatus.attack * 1.5;
+            Console.WriteLine("더블 스트라이크!");
+            monsters[select1].HP -= (int)Atk;
+            monsters[select2].HP -= (int)Atk;
         }
 
         public bool isDead(int HP)
@@ -188,7 +269,7 @@ namespace TeamPhoenix
         }
         
 
-        static public List<Monster> MonsterSpawner(Monster monster1, Monster monster2, Monster monster3)
+        static public List<Monster> MonsterSpawner()
         {
             Random random = new Random();
             List<Monster> monsters = new List<Monster>();
@@ -199,13 +280,16 @@ namespace TeamPhoenix
                 int RandomMonster=random.Next(1, 4);
                 if(RandomMonster == 1)
                 {
-                    monsters.Add(monster1);
+                    Monster Minion = new Monster("Lv2 미니언", 15, 5);
+                    monsters.Add(Minion);
                 }else if(RandomMonster == 2)
                 {
-                    monsters.Add(monster2);
+                    Monster Voidworm = new Monster("Lv3 공허충", 10, 9);
+                    monsters.Add(Voidworm);
                 }else if(RandomMonster == 3)
                 {
-                    monsters.Add(monster2);
+                    Monster Cannonminion = new Monster("Lv5 대포미니언", 25, 8);
+                    monsters.Add(Cannonminion);
                 }
             }
             return monsters;
