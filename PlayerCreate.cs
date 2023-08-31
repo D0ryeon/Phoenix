@@ -28,7 +28,7 @@ namespace TeamPhoenix
             public override SceneBase End()
             {
                 Console.WriteLine("생성하실 캐릭터의 이름을 적어주세요.");
-                Global.playerName = Console.ReadLine();
+                Global.player.name = Console.ReadLine();
 
                 SceneBase nextScene = null;
                 RunScene(new ChooseClass());
@@ -85,22 +85,22 @@ namespace TeamPhoenix
                 switch (number)
                 {
                     case "1":
-                        Global.playerJob = EJob.Warrior;
-                        Global.playerStatus.health = 100;
-                        Global.playerStatus.attack = 10;
-                        Global.playerStatus.armor = 10;
+                        Global.player.job = EJob.Warrior;
+                        Global.player.status.health = 100;
+                        Global.player.status.attack = 10;
+                        Global.player.status.armor = 10;
                         break;
                     case "2":
-                        Global.playerJob = EJob.Archor;
-                        Global.playerStatus.health = 70;
-                        Global.playerStatus.attack = 13;
-                        Global.playerStatus.armor = 7;
+                        Global.player.job = EJob.Archor;
+                        Global.player.status.health = 70;
+                        Global.player.status.attack = 13;
+                        Global.player.status.armor = 7;
                         break;
                     case "3":
-                        Global.playerJob = EJob.Mage;
-                        Global.playerStatus.health = 50;
-                        Global.playerStatus.attack = 15;
-                        Global.playerStatus.armor = 5;
+                        Global.player.job = EJob.Mage;
+                        Global.player.status.health = 50;
+                        Global.player.status.attack = 15;
+                        Global.player.status.armor = 5;
                         break;
                 }
 
@@ -116,12 +116,12 @@ namespace TeamPhoenix
                 Console.WriteLine("<캐릭터 생성완료>");
                 Console.WriteLine();
 
-                Console.WriteLine($"Lv.{Global.playerLevel}");
-                Console.WriteLine($"{Global.playerName} ({Global.playerJob.ToString()})");
-                Console.WriteLine($"공격력 : {Global.playerStatus.attack}");
-                Console.WriteLine($"방어력 : {Global.playerStatus.armor}");
-                Console.WriteLine($"체 력 : {Global.playerStatus.health}");
-                Console.WriteLine($"Gold : {Global.playerGold}");
+                Console.WriteLine($"Lv.{Global.player.level}");
+                Console.WriteLine($"{Global.player.name} ({Global.player.job.ToString()})");
+                Console.WriteLine($"공격력 : {Global.player.status.attack}");
+                Console.WriteLine($"방어력 : {Global.player.status.armor}");
+                Console.WriteLine($"체 력 : {Global.player.status.health}");
+                Console.WriteLine($"Gold : {Global.player.gold}");
                 Console.WriteLine();
             }
 
