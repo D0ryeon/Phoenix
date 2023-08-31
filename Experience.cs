@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,51 +8,50 @@ using System.Threading.Tasks;
 
 namespace TeamPhoenix
 {
-    public class ExperienceTable
+
+    
+
+    public class LevelSystem : ISaveLoadable
     {
 
         public const int MAX_LEVEL = 5;
-
-        //싱글턴 패턴을 적용합니다.
-        private ExperienceTable() { }
-
-        private static ExperienceTable s_instance = new ExperienceTable();
-
-        public static ExperienceTable instance => s_instance;
-        ///////////////////////////////////////////////////////////////
-
-
-        //레벨별 필요 경험치 양을 얻습니다.
-        public int GetRequiredExperience(int level)
-        {
-            return 0;
-        }
-
-    }
-
-    public class LevelSystem
-    {
 
         //현재 경험치
         public int experience => m_experience;
 
         //현재 레벨의 목표 경험치
-        public int currentRequiredExperience => ExperienceTable.instance.GetRequiredExperience(m_level);
+        public int currentRequiredExperience => Global.table.GetRequiredExperience(m_level);
+
+        public STATUS currentLevelStatusBonus => Global.table.GetLevelStatusBonus(m_level);
 
         //현재 레벨
         public int level => m_level;
 
+        //ISaveLoadable implement
+
+        public void Save(JObject? json)
+        {
+            json?.Add("LEVEL", m_level);
+            json?.Add("EXPERIENCE", m_experience);
+        }
+
+        public void Load(JObject? json)
+        {
+            Debug.Assert(int.TryParse(json?["LEVEL"]?.ToString(), out m_level));
+            Debug.Assert(int.TryParse(json?["EXPERIENCE"]?.ToString(), out m_experience));
+        }
+
+
+
         //몬스터를 사냥해 경험치를 얻습니다.
         //monsterIdentifier: 사냥한 몬스터의 식별자
+        //return: 정상 작동 유무.
         public bool AddMonsterKillExperience(int monsterIdentifier)
         {
 
-            m_experience += 100;
-            if(m_experience >= currentRequiredExperience)
-            {
-                m_experience = m_experience - currentRequiredExperience;
-                LevelUp();
-            }
+            m_experience += Global.table.GetMonsterExperience(monsterIdentifier);
+
+            CheckExperience();
 
             return true;
 
@@ -59,7 +59,20 @@ namespace TeamPhoenix
 
         private void LevelUp()
         {
-            m_level = Math.Min(ExperienceTable.MAX_LEVEL, m_level + 1);
+            m_level = Math.Min(MAX_LEVEL, m_level + 1);
+        }
+
+        //경험치가 변했을 경우 필요한 처리가 있다면 처리합니다.
+        private void CheckExperience()
+        {
+
+            //경험치가 충분하다면 레벨업합니다.
+            if (m_experience >= currentRequiredExperience)
+            {
+                m_experience = m_experience - currentRequiredExperience;
+                LevelUp();
+            }
+
         }
 
         private int m_experience    = 0;
