@@ -20,13 +20,15 @@ namespace TeamPhoenix
         public EItemClassify classify;
         public string name;
         public string manual;
+        public int gold;
 
-        public Item(int identifier, EItemClassify classify, string name, string manual)
+        public Item(int identifier, EItemClassify classify, string name, string manual, int gold)
         {
             this.identifier = identifier;
             this.classify = classify;
             this.name = name;
             this.manual = manual;
+            this.gold = gold;
         }
 
     }
@@ -36,7 +38,7 @@ namespace TeamPhoenix
 
         public STATUS status;
 
-        public EquipItem(int identifier, string name, string manual, STATUS status) : base(identifier, EItemClassify.Equip, name, manual)
+        public EquipItem(int identifier, string name, string manual, STATUS status,int gold) : base(identifier, EItemClassify.Equip, name, manual,gold)
         {
             this.status = status;
         }

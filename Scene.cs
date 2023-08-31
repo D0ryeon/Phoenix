@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeamPhoenix.TeamPhoenix;
 
 namespace TeamPhoenix
 {
@@ -61,7 +62,7 @@ namespace TeamPhoenix
             Console.WriteLine("3. 전투");
             Console.WriteLine("4. 테스트용 사용시 Nearby에 몇번 사용한다고 지정해주세요");
             Console.WriteLine("5. 세이브/로드");
-            Console.WriteLine("6. 테스트용 사용시 Nearby에 몇번 사용한다고 지정해주세요");
+            Console.WriteLine("6. 캐릭터 생성");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
@@ -69,9 +70,9 @@ namespace TeamPhoenix
             selector.dictionary.Add(1, (_) => RunScene(new StatusScene()));
             selector.dictionary.Add(2, (_) => RunScene(new InventoryScene()));
             selector.dictionary.Add(3, (_) => RunScene(new BattleScene()));
-            //selector.dictionary.Add(4, (_) => RunScene(new TestScene2()));
+            selector.dictionary.Add(4, (_) => RunScene(new ShopScene()));
             selector.dictionary.Add(5, (_) => RunScene(new SaveScene()));
-            //selector.dictionary.Add(6, (_) => RunScene(new TestScene3()));
+            selector.dictionary.Add(6, (_) => RunScene(new CreateCharacter()));
             selector.Select(">>");
 
             return this;

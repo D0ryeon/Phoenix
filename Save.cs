@@ -8,11 +8,20 @@ using System.Threading.Tasks;
 
 namespace TeamPhoenix
 {
+
+    public interface ISaveLoadable
+    {
+
+        void Save(JObject? json);
+        void Load(JObject? json);
+
+    }
+
     public class Save
     {
         public void CreateSave()
         {
-            string path = @"C:\temp\Save.json";
+            string path = "Save.json";
 
             if (!File.Exists(path))
             {
@@ -36,7 +45,8 @@ namespace TeamPhoenix
 
         public void LoadSave()
         {
-            string jsonFilePath = @"C:\temp\Save.json";
+
+            string jsonFilePath = @"Save.json";
             string str = string.Empty;
             string users = string.Empty;
 
@@ -48,62 +58,26 @@ namespace TeamPhoenix
 
                 JObject json = (JObject)JToken.ReadFrom(reader);
 
-                Global.playerStatus.attack = int.Parse(json["STATUS"][0].ToString());
-                Global.playerStatus.armor = int.Parse(json["STATUS"][1].ToString());
-                Global.playerStatus.health = int.Parse(json["STATUS"][2].ToString());
-                Global.playerJob = (EJob)Enum.Parse(typeof(EJob), json["EJOB"].ToString());
-                Global.playerGold = int.Parse(json["GOLD"].ToString());
-                Global.playerName = (string)json["NAME"].ToString();
-                Global.playerLevel = int.Parse(json["LEVEL"].ToString());
-                int v = int.Parse(json["COUNT"].ToString());
-                Global.playerInventory = new Inventory();
-                for (int i = 0; i < v; i++)
-                {
-                    Global.playerInventory.itemDictionary.Add(i, new InventoryItem(new ITEM(int.Parse(json["IDEN"][i].ToString())), int.Parse(json["NUM"][i].ToString())));
-                }
+                Global.player.Load(json);
 
                 Console.WriteLine("불러오기 완료");
 
             }
+
         }
 
 
         public void InputJson(string path)
         {
-            //사용자 정보 배열로 선언
-            var status = new[] { Global.playerStatus.attack, Global.playerStatus.armor, Global.playerStatus.health };
-            //var item = Global.itemList[inventoryItem.item.identifier];
 
-
-            int[] identifier = new int[Global.playerInventory.itemDictionary.Count];
-            int[] num = new int[Global.playerInventory.itemDictionary.Count];
-            int count = 0;
-            foreach (KeyValuePair<int, InventoryItem> item in Global.playerInventory.itemDictionary)
-            {
-                identifier[item.Key] = item.Value.item.identifier;
-                num[item.Key] = item.Value.number;
-                count++;
-            }
-            JObject dbSpec = new JObject(
-                new JProperty("EJOB", Global.playerJob.ToString()),
-                new JProperty("GOLD", Global.playerGold),
-                new JProperty("NAME", Global.playerName),
-                new JProperty("LEVEL", Global.playerLevel),
-                new JProperty("COUNT", count)
-                );
-
-            //Jarray 로 추가
-            dbSpec.Add("STATUS", JArray.FromObject(status));
-
-
-            dbSpec.Add("IDEN", JArray.FromObject(identifier));
-            dbSpec.Add("NUM", JArray.FromObject(num));
-
+            JObject dbSpec = new JObject();
+            Global.player.Save(dbSpec);
 
             Console.WriteLine();
             File.WriteAllText(path, dbSpec.ToString());
 
             Console.WriteLine("저장완료");
+
         }
     }
 
