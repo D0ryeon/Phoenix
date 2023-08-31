@@ -69,7 +69,7 @@ namespace TeamPhoenix
             selector.dictionary.Add(1, (_) => RunScene(new StatusScene()));
             selector.dictionary.Add(2, (_) => RunScene(new InventoryScene()));
             selector.dictionary.Add(3, (_) => RunScene(new BattleScene()));
-            //selector.dictionary.Add(4, (_) => RunScene(new TestScene2()));
+            selector.dictionary.Add(4, (_) => RunScene(new ShopScene()));
             selector.dictionary.Add(5, (_) => RunScene(new SaveScene()));
             //selector.dictionary.Add(6, (_) => RunScene(new TestScene3()));
             selector.Select(">>");
