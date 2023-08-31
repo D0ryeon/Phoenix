@@ -60,7 +60,7 @@ namespace TeamPhoenix
             Console.WriteLine("1. 상태 보기");
             Console.WriteLine("2. 인벤토리");
             Console.WriteLine("3. 전투");
-            Console.WriteLine("4. 테스트용 사용시 Nearby에 몇번 사용한다고 지정해주세요");
+            Console.WriteLine("4. 상점");
             Console.WriteLine("5. 세이브/로드");
             Console.WriteLine("6. 캐릭터 생성");
             Console.WriteLine();
