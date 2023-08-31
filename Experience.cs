@@ -20,22 +20,22 @@ namespace TeamPhoenix
         public int experience => m_experience;
 
         //현재 레벨의 목표 경험치
-        public int currentRequiredExperience => Table.instance.GetRequiredExperience(m_level);
+        public int currentRequiredExperience => Global.table.GetRequiredExperience(m_level);
 
-        public STATUS currentLevelStatusBonus => Table.instance.GetLevelStatusBonus(m_level);
+        public STATUS currentLevelStatusBonus => Global.table.GetLevelStatusBonus(m_level);
 
         //현재 레벨
         public int level => m_level;
 
-        //ISaveLoadable override
+        //ISaveLoadable implement
 
-        public void Save(JObject json)
+        public void Save(JObject? json)
         {
             json?.Add("LEVEL", m_level);
             json?.Add("EXPERIENCE", m_experience);
         }
 
-        public void Load(JObject json)
+        public void Load(JObject? json)
         {
             Debug.Assert(int.TryParse(json?["LEVEL"]?.ToString(), out m_level));
             Debug.Assert(int.TryParse(json?["EXPERIENCE"]?.ToString(), out m_experience));
@@ -49,7 +49,7 @@ namespace TeamPhoenix
         public bool AddMonsterKillExperience(int monsterIdentifier)
         {
 
-            m_experience += Table.instance.GetMonsterExperience(monsterIdentifier);
+            m_experience += Global.table.GetMonsterExperience(monsterIdentifier);
 
             CheckExperience();
 

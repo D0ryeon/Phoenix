@@ -10,13 +10,10 @@ namespace TeamPhoenix
     public class Table
     {
 
-        //싱글턴 패턴을 적용합니다.
-        private Table() { InitializeTable(); }
-
-        private static Table s_instance = new Table();
-
-        public static Table instance => s_instance;
-        ///////////////////////////////////////////////////////////////
+        public Table()
+        {
+            InitializeTable();
+        }
 
         public STATUS GetLevelStatusBonus(int level)
         {

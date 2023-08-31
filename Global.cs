@@ -16,6 +16,10 @@ namespace TeamPhoenix
         public static Inventory playerInventory = new Inventory();
         public static LevelSystem playerLevel = new LevelSystem();
 
+        public static Player player = new Player();
+
+        public static Table table = new Table();
+
         public static List<Item> itemList = new List<Item>();
 
     }
