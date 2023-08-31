@@ -28,7 +28,7 @@ namespace TeamPhoenix
             Global.itemList.Add(new EquipItem(0, "무쇠갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", new STATUS(0, 5, 0, 0), 100));
             Global.itemList.Add(new EquipItem(1, "낡은 검", "쉽게 볼 수 있는 낡은 검 입니다.", new STATUS(2, 0, 0, 0), 100));
             Global.itemList.Add(new EquipItem(2, "마체테", "무언가 자르기 좋아보입니다.", new STATUS(8, 0, 0, 0), 1500));
-            Global.itemList.Add(new EquipItem(3, "무쇠신발", "무쇠로 만들어져 튼튼한 신발입니다.", new STATUS(0, 5, 0, 0), 1500));
+            Global.itemList.Add(new EquipItem(3, "무쇠신발", "무쇠로 만들어져 튼튼한 신발입니다.", new STATUS(0, 5, 0, 0), 500));
             Global.itemList.Add(new EquipItem(4, "무쇠투구", "무쇠로 만들어져 튼튼한 투구입니다.", new STATUS(0, 8, 0, 0), 2000));
 
 

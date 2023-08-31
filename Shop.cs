@@ -31,7 +31,7 @@ namespace TeamPhoenix
                 {
                     if (shopItemList[z].identifier == equipItemList[i].item.identifier)
                     {
-                        shopItemList.RemoveAt(z);
+                        
                     }
                 }
             }
@@ -39,7 +39,8 @@ namespace TeamPhoenix
             Console.Clear();
 
             Console.WriteLine("[판매하기]");
-            Console.WriteLine("물건을 판매하실 수 있으십니다.");
+            Console.WriteLine($"소지금 : {Global.player.gold} G");
+            Console.WriteLine("물건을 판매하실 수 있습니다.");
 
 
         }
@@ -52,14 +53,14 @@ namespace TeamPhoenix
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            var select = Utility.SelectInt(0, equipItemList.Count, ">>");
+            var select = Utility.SelectInt(0, shopItemList.Count, ">>");
             if (select == 0)
             {
                 nextScene = null;
             }
             else
             {
-                equipItemList[select - 1].equip = !equipItemList[select - 1].equip;
+                //Sell_Item(shopItemList[select]);
                 nextScene = this;
             }
 
@@ -90,6 +91,9 @@ namespace TeamPhoenix
     }
 
 
+    
+
+
     public class ShopBuyScene : SceneBase
     {
 
@@ -104,11 +108,17 @@ namespace TeamPhoenix
                     equipItemList.Add(inventoryItem.Value);
                 }
             }
+            shopItemList.Clear();
+            foreach (var ShopItem in Global.itemList)
+            {
+                shopItemList.Add(ShopItem);
+            }
 
             Console.Clear();
 
-            Console.WriteLine("[상점]");
-            Console.WriteLine("상점에 오신걸 환영합니다. 원하는 물건을 구매 하거나 팔 수 있습니다");
+            Console.WriteLine("[구매하기]");
+            Console.WriteLine($"소지금 : {Global.player.gold} G");
+            Console.WriteLine("물건을 구매하실 수 있습니다.");
 
 
         }
@@ -116,21 +126,27 @@ namespace TeamPhoenix
         public override SceneBase End()
         {
 
-            Console.WriteLine("1.구매하기");
-            Console.WriteLine("2.판매하기");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            var select = Utility.SelectInt(0, equipItemList.Count, ">>");
+            var select = Utility.SelectInt(0, shopItemList.Count, ">>");
             if (select == 0)
             {
                 nextScene = null;
             }
             else
             {
-                equipItemList[select - 1].equip = !equipItemList[select - 1].equip;
+                if (shopItemList[select-1].gold <= Global.player.gold)
+                {
+                    Shop.BuyItem(shopItemList[select-1]);
+                }
+                else
+                {
+                    Console.WriteLine("플레이어 소지금이 부족합니다");
+                }
+
                 nextScene = this;
             }
 
@@ -142,18 +158,22 @@ namespace TeamPhoenix
         {
 
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < equipItemList.Count; ++i)
+            for (int i = 0; i < shopItemList.Count; ++i)
             {
                 Console.Write($"- {i + 1}. ");
-                if (equipItemList[i].equip)
+                for(int z = 0; z < equipItemList.Count;z++)
                 {
-                    Console.Write("[E]");
+                    if (equipItemList[z].item.identifier == shopItemList[i].identifier)
+                    {
+                        Console.Write("[구매완료]");
+                    }
+
                 }
-                Utility.PrintInventoryItem(equipItemList[i]);
+                Shop.PrintBuyItem(shopItemList[i]);
             }
 
         }
-
+        List<Item> shopItemList = new List<Item>();
         List<InventoryItem> equipItemList = new List<InventoryItem>();
 
         private SceneBase nextScene = null;
@@ -181,7 +201,9 @@ namespace TeamPhoenix
         {
 
             Console.WriteLine();
-            Console.WriteLine("1. 장착 관리");
+            Console.WriteLine("1.구매하기");
+            Console.WriteLine("2.판매하기");
+            Console.WriteLine();
             Console.WriteLine("0. 나가기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -189,7 +211,8 @@ namespace TeamPhoenix
             SceneBase nextScene = null;
             Utility.MethodSelector methodSelector = new Utility.MethodSelector();
             methodSelector.dictionary.Add(0, (_) => nextScene = null);
-            methodSelector.dictionary.Add(1, (_) => { nextScene = this; RunScene(new InventoryEquipScene()); });
+            methodSelector.dictionary.Add(1, (_) => { nextScene = this; RunScene(new ShopBuyScene()); });
+            methodSelector.dictionary.Add(2, (_) => { nextScene = this; RunScene(new ShopSellScene()); });
             methodSelector.Select(">>");
 
             return nextScene;
@@ -205,9 +228,36 @@ namespace TeamPhoenix
 
     public class Shop
     {
-        public static void PrintShopItem(InventoryItem inventoryItem)
+        static public void BuyItem(Item item)
         {
-            var item = Global.itemList[inventoryItem.item.identifier];
+
+            
+                Dictionary<int, InventoryItem> i = Global.player.inventory.itemDictionary;
+
+                Global.player.inventory.itemDictionary.Add(i.Count, new InventoryItem(new ITEM(item.identifier), 1));
+
+
+
+                Global.player.gold -= item.gold;
+            
+            
+
+        }
+
+        static public void SellItem(Item item)
+        {
+
+            Dictionary<int, InventoryItem> i = Global.player.inventory.itemDictionary;
+
+            Global.player.inventory.itemDictionary.Add(i.Count, new InventoryItem(new ITEM(item.identifier), 1));
+
+            Global.player.gold += item.gold/2;
+
+        }
+
+
+        public static void PrintBuyItem(Item item)
+        {
 
             switch (item.classify)
             {
@@ -235,7 +285,7 @@ namespace TeamPhoenix
                     Console.WriteLine($"{equipItem.name} | {option} | {equipItem.manual}");
                     break;
                 case EItemClassify.Consume:
-                    Console.WriteLine($"{item.name}({inventoryItem.number}) | {item.manual}");
+                    Console.WriteLine($"{item.name} | {item.manual}");
                     break;
             }
 
