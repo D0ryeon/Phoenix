@@ -91,7 +91,7 @@ namespace TeamPhoenix
         {
 
             STATUS status = new STATUS();
-            foreach (var inventoryItem in Global.playerInventory.itemDictionary)
+            foreach (var inventoryItem in Global.player.inventory.itemDictionary)
             {
 
                 if (inventoryItem.Value.equip)
@@ -109,12 +109,12 @@ namespace TeamPhoenix
 
             Console.Clear();
 
-            Console.WriteLine($"Lv.{Global.playerLevel}");
-            Console.WriteLine($"{Global.playerName} ({Global.playerJob.ToString()})");
-            Console.WriteLine($"공격력 : {Global.playerStatus.attack}" + (status.attack > 0 ? $" (+{status.attack})" : (status.attack < 0 ? $" ({status.attack})" : "")));
-            Console.WriteLine($"방어력 : {Global.playerStatus.armor}" + (status.armor > 0 ? $" (+{status.armor})" : (status.armor < 0 ? $" ({status.armor})" : "")));
-            Console.WriteLine($"체 력 : {Global.playerStatus.health}" + (status.health > 0 ? $" (+{status.health})" : (status.health < 0 ? $" ({status.health})" : "")));
-            Console.WriteLine($"Gold : {Global.playerGold}");
+            Console.WriteLine($"Lv.{Global.player.level.level}");
+            Console.WriteLine($"{Global.player.name} ({Global.player.job.ToString()})");
+            Console.WriteLine($"공격력 : {Global.player.status.attack}" + (status.attack > 0 ? $" (+{status.attack})" : (status.attack < 0 ? $" ({status.attack})" : "")));
+            Console.WriteLine($"방어력 : {Global.player.status.armor}" + (status.armor > 0 ? $" (+{status.armor})" : (status.armor < 0 ? $" ({status.armor})" : "")));
+            Console.WriteLine($"체 력 : {Global.player.status.health}" + (status.health > 0 ? $" (+{status.health})" : (status.health < 0 ? $" ({status.health})" : "")));
+            Console.WriteLine($"Gold : {Global.player.gold}");
             Console.WriteLine();
 
         }
@@ -147,9 +147,9 @@ namespace TeamPhoenix
             Console.Clear();
 
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < Global.playerInventory.itemDictionary.Count; ++i)
+            for (int i = 0; i < Global.player.inventory.itemDictionary.Count; ++i)
             {
-                Utility.PrintInventoryItem(Global.playerInventory.itemDictionary[i]);
+                Utility.PrintInventoryItem(Global.player.inventory.itemDictionary[i]);
             }
 
         }
@@ -186,7 +186,7 @@ namespace TeamPhoenix
         {
 
             equipItemList.Clear();
-            foreach (var inventoryItem in Global.playerInventory.itemDictionary)
+            foreach (var inventoryItem in Global.player.inventory.itemDictionary)
             {
                 if (Global.itemList[inventoryItem.Value.item.identifier].classify == EItemClassify.Equip)
                 {

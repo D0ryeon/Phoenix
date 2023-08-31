@@ -13,7 +13,7 @@ namespace TeamPhoenix
         {
 
             equipItemList.Clear();
-            foreach (var inventoryItem in Global.playerInventory.itemDictionary)
+            foreach (var inventoryItem in Global.player.inventory.itemDictionary)
             {
                 if (Global.itemList[inventoryItem.Value.item.identifier].classify == EItemClassify.Equip)
                 {
@@ -97,7 +97,7 @@ namespace TeamPhoenix
         {
 
             equipItemList.Clear();
-            foreach (var inventoryItem in Global.playerInventory.itemDictionary)
+            foreach (var inventoryItem in Global.player.inventory.itemDictionary)
             {
                 if (Global.itemList[inventoryItem.Value.item.identifier].classify == EItemClassify.Equip)
                 {
@@ -170,9 +170,9 @@ namespace TeamPhoenix
             Console.Clear();
 
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < Global.playerInventory.itemDictionary.Count; ++i)
+            for (int i = 0; i < Global.player.inventory.itemDictionary.Count; ++i)
             {
-                Utility.PrintInventoryItem(Global.playerInventory.itemDictionary[i]);
+                Utility.PrintInventoryItem(Global.player.inventory.itemDictionary[i]);
             }
 
         }

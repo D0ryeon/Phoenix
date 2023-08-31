@@ -15,7 +15,7 @@ namespace TeamPhoenix
             GameSystem gameSystem = new GameSystem();
             // 플레이어의 턴으로 시작!
             List<Monster> monsters = Monster.MonsterSpawner();
-            Global.playerStatus.health = 100;
+            Global.player.status.health = 100;
             while (true)
             {
                 Console.WriteLine("Battle !");
@@ -34,10 +34,10 @@ namespace TeamPhoenix
                 }
                 Console.WriteLine(" ");
                 Console.WriteLine("[내 정보]");
-                Console.WriteLine("이  름 : " + Global.playerName);
-                Console.WriteLine("공격력 : " + Global.playerStatus.attack);
-                Console.WriteLine("체  력 : " + Global.playerStatus.health);
-                Console.WriteLine("마  나 : " + Global.playerStatus.mana);
+                Console.WriteLine("이  름 : " + Global.player.name);
+                Console.WriteLine("공격력 : " + Global.player.status.attack);
+                Console.WriteLine("체  력 : " + Global.player.status.health);
+                Console.WriteLine("마  나 : " + Global.player.status.mana);
                 Console.WriteLine(" ");
                 Console.WriteLine("행동을 선택하시오 ");
                 Console.WriteLine(" 1. 일반 공격");
@@ -51,16 +51,16 @@ namespace TeamPhoenix
                     {
                         if (j == (select2-1))
                         {
-                            Console.WriteLine(Global.playerName + "의 공격!");
+                            Console.WriteLine(Global.player.name + "의 공격!");
                             Console.WriteLine(monsters[j].Name + "을(를) 공격합니다.");
                             int chance = gameSystem.Chance();
-                            monsters[j].HP = gameSystem.monsterHit(chance, monsters[j], Global.playerStatus.attack);
+                            monsters[j].HP = gameSystem.monsterHit(chance, monsters[j], Global.player.status.attack);
                             Thread.Sleep(1000);
                         }
                     }
                 }else if (select == 2)
                 {
-                    if(Global.playerStatus.mana < 10)
+                    if(Global.player.status.mana < 10)
                     {
                         Console.WriteLine("마나가 부족해 스킬 사용에 실패했습니다. ");
                         Thread.Sleep(1000);
@@ -92,7 +92,7 @@ namespace TeamPhoenix
                         continue; 
                     }
                     Console.WriteLine($"{monsters[k].Name}이 공격합니다!");
-                    Global.playerStatus.health = gameSystem.playerHit(chance, Global.playerStatus.health, monsters[k].Atk);
+                    Global.player.status.health = gameSystem.playerHit(chance, Global.player.status.health, monsters[k].Atk);
                     Console.WriteLine(" ");
                     Thread.Sleep(1000);
 
@@ -112,15 +112,15 @@ namespace TeamPhoenix
                     Console.Clear();
                     Console.WriteLine("Victory");
                     Console.WriteLine($"던전에서 몬스터 {monsters.Count}마리를 잡았습니다.");
-                    Console.WriteLine(Global.playerName);
-                    Console.WriteLine(Global.playerStatus.health);
+                    Console.WriteLine(Global.player.name);
+                    Console.WriteLine(Global.player.status.health);
                     break;
-                }else if(Global.playerStatus.health <= 0)
+                }else if(Global.player.status.health <= 0)
                 {
                     Console.Clear();
                     Console.WriteLine("You Died");
-                    Console.WriteLine(Global.playerName);
-                    Console.WriteLine(Global.playerStatus.health);
+                    Console.WriteLine(Global.player.name);
+                    Console.WriteLine(Global.player.status.health);
                     break;
                 }
                 Console.Clear();
@@ -217,11 +217,11 @@ namespace TeamPhoenix
             if (select == 1)
             {
                 AlphaStrike(monsters);
-                Global.playerStatus.mana -= 10;
+                Global.player.status.mana -= 10;
             }else if(select == 2)
             {
                 DoubleStrike(monsters);
-                Global.playerStatus.mana -= 15;
+                Global.player.status.mana -= 15;
             }
         }
 
@@ -229,7 +229,7 @@ namespace TeamPhoenix
         {
             Console.WriteLine("공격할 대상을 선택하시오");
             int select = int.Parse(Console.ReadLine())-1;
-            int Atk = Global.playerStatus.attack * 2;
+            int Atk = Global.player.status.attack * 2;
             Console.WriteLine("알파 스트라이크!");
             monsters[select].HP -= Atk;
         }
@@ -239,7 +239,7 @@ namespace TeamPhoenix
             Console.WriteLine("랜덤한 대상을 공격합니다.");
             int select1 = rand.Next(0, monsters.Count);
             int select2 = rand.Next(0, monsters.Count);
-            double Atk = Global.playerStatus.attack * 1.5;
+            double Atk = Global.player.status.attack * 1.5;
             Console.WriteLine("더블 스트라이크!");
             monsters[select1].HP -= (int)Atk;
             monsters[select2].HP -= (int)Atk;
