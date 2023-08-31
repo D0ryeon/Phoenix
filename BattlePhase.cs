@@ -10,7 +10,6 @@ namespace TeamPhoenix
     {
         public override void Start()
         {
-            LevelSystem levelSystem = new LevelSystem();
             Console.Clear();
             Random rand = new Random();
             GameSystem gameSystem = new GameSystem();
@@ -40,7 +39,7 @@ namespace TeamPhoenix
                 Console.WriteLine("공격력 : " + Global.player.status.attack);
                 Console.WriteLine("체  력 : " + Global.player.status.health);
                 Console.WriteLine("마  나 : " + Global.player.status.mana);
-                Console.WriteLine("레  벨 : " + levelSystem.level + "["+levelSystem.experience+"]");
+                Console.WriteLine("레  벨 : " + Global.player.level.level +"["+ Global.player.level.experience+ "]");
 
                 Console.WriteLine(" ");
                 Console.WriteLine("행동을 선택하시오 ");
@@ -61,7 +60,7 @@ namespace TeamPhoenix
                             monsters[j].HP = gameSystem.monsterHit(chance, monsters[j], Global.player.status.attack);
 
                             // 레벨업 함수 
-                            levelSystem.AddMonsterKillExperience(monsters[j].Identifier);       
+                            Global.player.level.AddMonsterKillExperience(monsters[j].Identifier);       
                             
                             Thread.Sleep(1000);
                         }
@@ -81,7 +80,7 @@ namespace TeamPhoenix
                     {
                         if (monsters[num].HP <= 0)
                         {
-                            levelSystem.AddMonsterKillExperience(monsters[num].Identifier);
+                            Global.player.level.AddMonsterKillExperience(monsters[num].Identifier);
                         }
                     }
                     Thread.Sleep(1000);
@@ -130,7 +129,7 @@ namespace TeamPhoenix
                     Console.WriteLine($"던전에서 몬스터 {monsters.Count}마리를 잡았습니다.");
                     Console.WriteLine("이  름 : " + Global.player.name);
                     Console.WriteLine("체  력 : " + Global.player.status.health);
-                    Console.WriteLine("레  벨 : " + levelSystem.level + "[" + levelSystem.experience + "]");
+                    Console.WriteLine("레  벨 : " + Global.player.level.level + "[" + Global.player.level.experience + "]");
 
                     break;
                 }else if(Global.player.status.health <= 0)
@@ -259,7 +258,7 @@ namespace TeamPhoenix
             int select1 = rand.Next(0, monsters.Count);
             int select2 = rand.Next(0, monsters.Count);
             double Atk = Global.player.status.attack * 1.5;
-            Console.WriteLine("더블 스트라이크!");
+            Console.WriteLine($"더블 스트라이크!\t[대상 : {monsters[select1].Name} , {monsters[select2].Name}");
             monsters[select1].HP -= (int)Atk;
             monsters[select2].HP -= (int)Atk;
         }
