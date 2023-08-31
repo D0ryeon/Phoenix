@@ -51,7 +51,10 @@ namespace TeamPhoenix
 
             m_experience += Global.table.GetMonsterExperience(monsterIdentifier);
 
-            CheckExperience();
+            if (m_level < MAX_LEVEL)
+            {
+                CheckExperience();
+            }
 
             return true;
 

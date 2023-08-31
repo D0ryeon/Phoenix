@@ -51,7 +51,6 @@ namespace TeamPhoenix
             job           = (EJob)Enum.Parse(typeof(EJob), json["EJOB"].ToString());
             gold          = int.Parse(json["GOLD"].ToString());
             name          = json["NAME"].ToString();
-            //Global.playerLevel.level = int.Parse(json["LEVEL"].ToString());
             int v = int.Parse(json["COUNT"].ToString());
             inventory = new Inventory();
             for (int i = 0; i < v; i++)
