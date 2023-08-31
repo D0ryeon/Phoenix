@@ -114,6 +114,7 @@ namespace TeamPhoenix
                     Console.WriteLine($"던전에서 몬스터 {monsters.Count}마리를 잡았습니다.");
                     Console.WriteLine(Global.playerName);
                     Console.WriteLine(Global.playerStatus.health);
+                    Global.playerStatus.mana += 15;
                     break;
                 }else if(Global.playerStatus.health <= 0)
                 {
