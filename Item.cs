@@ -21,6 +21,7 @@ namespace TeamPhoenix
         public string name;
         public string manual;
         public int gold;
+        public bool isMine;
 
         public Item(int identifier, EItemClassify classify, string name, string manual, int gold)
         {
@@ -29,6 +30,8 @@ namespace TeamPhoenix
             this.name = name;
             this.manual = manual;
             this.gold = gold;
+            this.isMine = false;
+
         }
 
     }
