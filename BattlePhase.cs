@@ -10,9 +10,11 @@ namespace TeamPhoenix
     {
         public override void Start()
         {
+            LevelSystem levelSystem = new LevelSystem();
             Console.Clear();
             Random rand = new Random();
             GameSystem gameSystem = new GameSystem();
+
             // 플레이어의 턴으로 시작!
             List<Monster> monsters = Monster.MonsterSpawner();
             Global.player.status.health = 100;
@@ -38,6 +40,8 @@ namespace TeamPhoenix
                 Console.WriteLine("공격력 : " + Global.player.status.attack);
                 Console.WriteLine("체  력 : " + Global.player.status.health);
                 Console.WriteLine("마  나 : " + Global.player.status.mana);
+                Console.WriteLine("레  벨 : " + levelSystem.level + "["+levelSystem.experience+"]");
+
                 Console.WriteLine(" ");
                 Console.WriteLine("행동을 선택하시오 ");
                 Console.WriteLine(" 1. 일반 공격");
@@ -55,6 +59,10 @@ namespace TeamPhoenix
                             Console.WriteLine(monsters[j].Name + "을(를) 공격합니다.");
                             int chance = gameSystem.Chance();
                             monsters[j].HP = gameSystem.monsterHit(chance, monsters[j], Global.player.status.attack);
+
+                            // 레벨업 함수 
+                            levelSystem.AddMonsterKillExperience(monsters[j].Identifier);       
+                            
                             Thread.Sleep(1000);
                         }
                     }
@@ -67,7 +75,15 @@ namespace TeamPhoenix
                         Console.Clear();
                         continue;
                     }
+                    // 스킬의 경우 스킬 함수에서 레벨업 체크
                     gameSystem.Skill(monsters);
+                    for(int num = 0; num < monsters.Count; num++)
+                    {
+                        if (monsters[num].HP <= 0)
+                        {
+                            levelSystem.AddMonsterKillExperience(monsters[num].Identifier);
+                        }
+                    }
                     Thread.Sleep(1000);
                 }
                 else if(select <= 0 || select > 2)
@@ -87,7 +103,7 @@ namespace TeamPhoenix
                     bool isdead = gameSystem.isDead(monsters[k].HP);
                     if (isdead) 
                     {
-                        Console.WriteLine("싸늘하다. 이미 시체인듯하다.");
+                        Console.WriteLine("싸늘하다. 이미 시체인듯하다.\n");
                         Thread.Sleep(1000);
                         continue; 
                     }
@@ -112,8 +128,10 @@ namespace TeamPhoenix
                     Console.Clear();
                     Console.WriteLine("Victory");
                     Console.WriteLine($"던전에서 몬스터 {monsters.Count}마리를 잡았습니다.");
-                    Console.WriteLine(Global.player.name);
-                    Console.WriteLine(Global.player.status.health);
+                    Console.WriteLine("이  름 : " + Global.player.name);
+                    Console.WriteLine("체  력 : " + Global.player.status.health);
+                    Console.WriteLine("레  벨 : " + levelSystem.level + "[" + levelSystem.experience + "]");
+
                     break;
                 }else if(Global.player.status.health <= 0)
                 {
@@ -148,6 +166,7 @@ namespace TeamPhoenix
     public class GameSystem
     {
         Random rand = new Random();
+        LevelSystem LevelSystem = new LevelSystem();
         public int Chance()
         {
             // 주사위 굴려서 나온 숫자 리턴
@@ -262,13 +281,14 @@ namespace TeamPhoenix
 
     public class Monster
     {
-        
+        public int Identifier { get; set; }
         public string Name { get; }
         public int HP { get; set; }
         public int Atk { get; set; }
 
-        public Monster(string _name, int _hp, int _atk) 
+        public Monster(int identifier, string _name, int _hp, int _atk) 
         {
+            Identifier = identifier;
             Name = _name;
             HP = _hp;
             Atk = _atk;
@@ -286,15 +306,15 @@ namespace TeamPhoenix
                 int RandomMonster=random.Next(1, 4);
                 if(RandomMonster == 1)
                 {
-                    Monster Minion = new Monster("Lv2 미니언", 15, 5);
+                    Monster Minion = new Monster(0,"Lv2 미니언", 15, 5);
                     monsters.Add(Minion);
                 }else if(RandomMonster == 2)
                 {
-                    Monster Voidworm = new Monster("Lv3 공허충", 10, 9);
+                    Monster Voidworm = new Monster(1,"Lv3 공허충", 10, 9);
                     monsters.Add(Voidworm);
                 }else if(RandomMonster == 3)
                 {
-                    Monster Cannonminion = new Monster("Lv5 대포미니언", 25, 8);
+                    Monster Cannonminion = new Monster(2,"Lv5 대포미니언", 25, 8);
                     monsters.Add(Cannonminion);
                 }
             }
