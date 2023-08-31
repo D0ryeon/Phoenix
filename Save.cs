@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace TeamPhoenix
 {
+
+    public interface ISaveLoadable
+    {
+
+        void Save(JObject json);
+        void Load(JObject json);
+
+    }
+
     public class Save
     {
         public void CreateSave()
@@ -54,7 +63,8 @@ namespace TeamPhoenix
                 Global.playerJob = (EJob)Enum.Parse(typeof(EJob), json["EJOB"].ToString());
                 Global.playerGold = int.Parse(json["GOLD"].ToString());
                 Global.playerName = (string)json["NAME"].ToString();
-                Global.playerLevel = int.Parse(json["LEVEL"].ToString());
+                Global.playerLevel.Load(json);
+                //Global.playerLevel.level = int.Parse(json["LEVEL"].ToString());
                 int v = int.Parse(json["COUNT"].ToString());
                 Global.playerInventory = new Inventory();
                 for (int i = 0; i < v; i++)
@@ -88,9 +98,11 @@ namespace TeamPhoenix
                 new JProperty("EJOB", Global.playerJob.ToString()),
                 new JProperty("GOLD", Global.playerGold),
                 new JProperty("NAME", Global.playerName),
-                new JProperty("LEVEL", Global.playerLevel),
+                //new JProperty("LEVEL", Global.playerLevel),
                 new JProperty("COUNT", count)
                 );
+
+            Global.playerLevel.Save(dbSpec);
 
             //Jarray 로 추가
             dbSpec.Add("STATUS", JArray.FromObject(status));

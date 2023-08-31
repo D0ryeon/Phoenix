@@ -23,6 +23,7 @@ namespace TeamPhoenix
             Global.playerStatus.attack = 10;
             Global.playerStatus.armor = 1;
             Global.playerStatus.health = 35;
+            Global.playerStatus.mana = 50;
 
             Global.itemList.Add(new EquipItem(0, "무쇠갑옷", "무쇠로 만들어져 튼튼한 갑옷입니다.", new STATUS(0, 5, 0), 100));
             Global.itemList.Add(new EquipItem(1, "낡은 검", "쉽게 볼 수 있는 낡은 검 입니다.", new STATUS(2, 0, 0), 100));
