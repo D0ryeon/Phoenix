@@ -15,9 +15,7 @@ namespace TeamPhoenix
             inventoryList.Clear();
             foreach (var inventoryItem in Global.player.inventory.itemDictionary)
             {
-                
-                    inventoryList.Add(inventoryItem.Value);
-                
+                    inventoryList.Add(inventoryItem.Value);       
             }
             
 
@@ -45,6 +43,7 @@ namespace TeamPhoenix
             }
             else
             {
+                
                 Shop.SellItem(select-1);
                 nextScene = this;
             }
@@ -88,6 +87,7 @@ namespace TeamPhoenix
             equipItemList.Clear();
             foreach (var inventoryItem in Global.player.inventory.itemDictionary)
             {
+
                 if (Global.itemList[inventoryItem.Value.item.identifier].classify == EItemClassify.Equip)
                 {
                     equipItemList.Add(inventoryItem.Value);
@@ -242,14 +242,14 @@ namespace TeamPhoenix
 
         static public void SellItem(int select)
         {
-            if (Global.player.inventory.itemDictionary.Count!=0)
+
+            var element = Global.player.inventory.itemDictionary.ElementAt(select);
+
+            if (Global.player.inventory.itemDictionary.Count != 0)
             {
-                Dictionary<int, InventoryItem> i = Global.player.inventory.itemDictionary;
-                int identifier = i[select].item.identifier;
-                Global.itemList[identifier].isMine = false;
-                i.Remove(select);
+                Global.itemList[element.Value.item.identifier].isMine = false;
+                Global.player.inventory.itemDictionary.Remove(element.Key);
             }
-            
 
         }
 
