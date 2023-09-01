@@ -24,7 +24,6 @@ namespace TeamPhoenix
         public InventoryItem(ITEM item, int number)
         {
             this.item = item;
-
             this.number = number;
             this.inventoryIndex = 0;
         }

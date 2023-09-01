@@ -12,29 +12,14 @@ namespace TeamPhoenix
         public override void Start()
         {
 
-            equipItemList.Clear();
+            inventoryList.Clear();
             foreach (var inventoryItem in Global.player.inventory.itemDictionary)
             {
-                if (Global.itemList[inventoryItem.Value.item.identifier].classify == EItemClassify.Equip)
-                {
-                    equipItemList.Add(inventoryItem.Value);
-                }
+                
+                    inventoryList.Add(inventoryItem.Value);
+                
             }
-            foreach (var ShopItem in Global.itemList)
-            {
-                shopItemList.Add(ShopItem);
-            }
-
-            for(int i=0; i<equipItemList.Count; i++)
-            {
-                for(int z = 0; z < shopItemList.Count; z++)
-                {
-                    if (shopItemList[z].identifier == equipItemList[i].item.identifier)
-                    {
-                        
-                    }
-                }
-            }
+            
 
             Console.Clear();
 
@@ -53,14 +38,14 @@ namespace TeamPhoenix
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            var select = Utility.SelectInt(0, shopItemList.Count, ">>");
+            var select = Utility.SelectInt(0, inventoryList.Count, ">>");
             if (select == 0)
             {
                 nextScene = null;
             }
             else
             {
-                //Sell_Item(shopItemList[select]);
+                Shop.SellItem(select-1);
                 nextScene = this;
             }
 
@@ -72,19 +57,19 @@ namespace TeamPhoenix
         {
 
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < equipItemList.Count; ++i)
+            for (int i = 0; i < inventoryList.Count; ++i)
             {
                 Console.Write($"- {i + 1}. ");
-                if (equipItemList[i].equip)
+                if (inventoryList[i].equip)
                 {
                     Console.Write("[E]");
                 }
-                Utility.PrintInventoryItem(equipItemList[i]);
+                Utility.PrintInventoryItem(inventoryList[i]);
             }
 
         }
 
-        List<InventoryItem> equipItemList = new List<InventoryItem>();
+        List<InventoryItem> inventoryList = new List<InventoryItem>();
         List<Item> shopItemList = new List<Item>();
         private SceneBase nextScene = null;
 
@@ -131,21 +116,15 @@ namespace TeamPhoenix
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
-            var select = Utility.SelectInt(0, shopItemList.Count, ">>");
+            var select = Utility.SelectShopInt(0, shopItemList.Count, ">>");
             if (select == 0)
             {
                 nextScene = null;
             }
             else
             {
-                if (shopItemList[select-1].gold <= Global.player.gold)
-                {
+
                     Shop.BuyItem(shopItemList[select-1]);
-                }
-                else
-                {
-                    Console.WriteLine("플레이어 소지금이 부족합니다");
-                }
 
                 nextScene = this;
             }
@@ -160,15 +139,15 @@ namespace TeamPhoenix
             Console.WriteLine("[아이템 목록]");
             for (int i = 0; i < shopItemList.Count; ++i)
             {
-                Console.Write($"- {i + 1}. ");
-                for(int z = 0; z < equipItemList.Count;z++)
+                if (shopItemList[i].isMine == false)
                 {
-                    if (equipItemList[z].item.identifier == shopItemList[i].identifier)
-                    {
-                        Console.Write("[구매완료]");
-                    }
-
+                    Console.Write($"- {i + 1}. ");
                 }
+                else
+                {
+                    Console.Write("[구매완료]");
+                }
+
                 Shop.PrintBuyItem(shopItemList[i]);
             }
 
@@ -190,9 +169,12 @@ namespace TeamPhoenix
             Console.Clear();
 
             Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < Global.player.inventory.itemDictionary.Count; ++i)
+            for (int i = 0; i < 15; ++i)
             {
-                Utility.PrintInventoryItem(Global.player.inventory.itemDictionary[i]);
+                if (Global.player.inventory.itemDictionary.ContainsKey(i))
+                {
+                    Utility.PrintInventoryItem(Global.player.inventory.itemDictionary[i]);
+                }
             }
 
         }
@@ -230,28 +212,44 @@ namespace TeamPhoenix
     {
         static public void BuyItem(Item item)
         {
-
-            
+            bool invenNull = true;
+            if (item.isMine==false)
+            {
+                
                 Dictionary<int, InventoryItem> i = Global.player.inventory.itemDictionary;
-
-                Global.player.inventory.itemDictionary.Add(i.Count, new InventoryItem(new ITEM(item.identifier), 1));
-
-
-
+                for(int z =0; z < i.Count; z++)
+                {
+                    if (!(i.ContainsKey(z)))
+                    {
+                        Global.player.inventory.itemDictionary.Add(z, new InventoryItem(new ITEM(item.identifier), 1));
+                        invenNull = false;
+                        break;
+                    }
+                }
+                if (invenNull)
+                {
+                    Global.player.inventory.itemDictionary.Add(i.Count, new InventoryItem(new ITEM(item.identifier), 1));
+                }
+                item.isMine = true;
                 Global.player.gold -= item.gold;
-            
-            
+            }
+            else
+            {
+
+            }
 
         }
 
-        static public void SellItem(Item item)
+        static public void SellItem(int select)
         {
-
-            Dictionary<int, InventoryItem> i = Global.player.inventory.itemDictionary;
-
-            Global.player.inventory.itemDictionary.Add(i.Count, new InventoryItem(new ITEM(item.identifier), 1));
-
-            Global.player.gold += item.gold/2;
+            if (Global.player.inventory.itemDictionary.Count!=0)
+            {
+                Dictionary<int, InventoryItem> i = Global.player.inventory.itemDictionary;
+                int identifier = i[select].item.identifier;
+                Global.itemList[identifier].isMine = false;
+                i.Remove(select);
+            }
+            
 
         }
 
@@ -282,10 +280,10 @@ namespace TeamPhoenix
                         option += equipItem.status.health > 0 ? "체력 +" : "체력 ";
                         option += equipItem.status.health;
                     }
-                    Console.WriteLine($"{equipItem.name} | {option} | {equipItem.manual}");
+                    Console.WriteLine($"{equipItem.name} | {option} | {equipItem.manual} | {equipItem.gold} G");
                     break;
                 case EItemClassify.Consume:
-                    Console.WriteLine($"{item.name} | {item.manual}");
+                    Console.WriteLine($"{item.name} | {item.manual} | {item.gold}" );
                     break;
             }
 
