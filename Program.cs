@@ -33,8 +33,9 @@ namespace TeamPhoenix
 
 
             Global.player.inventory.itemDictionary.Add(0, new InventoryItem(new ITEM(0), 1));
+            Global.itemList[0].isMine = true;
             Global.player.inventory.itemDictionary.Add(1, new InventoryItem(new ITEM(1), 1));
-
+            Global.itemList[1].isMine = true;
             game.Run();
 
         }

@@ -40,7 +40,53 @@ namespace TeamPhoenix
             }
 
         }
+        static public int SelectShopInt(int min, int max, string message)
+        {
 
+            while (true)
+            {
+
+                Console.Write(message);
+                if (int.TryParse(Console.ReadLine(), out var select))
+                {
+                    if (select==0)
+                    {
+                        return select;
+                    }
+                    if (select < min || select > max)
+                    {
+                        Console.WriteLine("잘못된 입력입니다.");
+                    }
+                    else
+                    {
+                        if (Global.itemList[select - 1].isMine == true)
+                        {
+                            Console.WriteLine("이미 구매한 아이템입니다.");
+                        }
+                        else
+                        {
+                            if (Global.itemList[select - 1].gold <= Global.player.gold)
+                            {
+                                return select;
+                            }
+                            else
+                            {
+                                Console.WriteLine("플레이어 소지금이 부족합니다");
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                else
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                }
+
+            }
+
+        }
 
         public class MethodSelector
         {
